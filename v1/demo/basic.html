@@ -12,7 +12,7 @@
         td {
             border: 1px solid #000;
             line-height: 20px;
-            padding:5px;
+            padding: 5px;
         }
     </style>
 </head>
@@ -21,7 +21,7 @@
     <div id="wp"></div>
     <script id="tpl" type="text/html">
     <table>
-        <caption>for循环输出两次</caption>
+        <caption>for循环输出两次,支持各种js基本语法(for in,switch case),若存在jquery等其它全局变量,都可以直接使用</caption>
         <%var test = '输出自定义变量';%>
         <tr><th>功能</th><th>语法</th><th>结果示例</th></tr>
         <%for (var i = 0; i < 2; i++) {%>
@@ -47,6 +47,24 @@
                 <td>&lt;%for (var i = 0; i < 2; i++) {%&gt;</td>
                 <td>...</td>
             </tr>
+            <tr><td>for in循环</td>
+                <td>&lt;%for (var prop in obj) {%&gt;&lt;%}%&gt;</td>
+                <td>
+                    <ul>
+                    <%for(var prop in obj){%>
+                        <li><%=prop%>:{a:'<%=obj[prop].a%>',b:'<%=obj[prop].b%>'}</li>
+                    <%}%>
+                    </ul>
+                </td>
+            </tr>
+            <tr><td>switch case示例</td>
+                <td>&lt;%switch (obj.k.a) { case 111:%&gt;&lt;%break;}%&gt;</td>
+                <td>
+                    <%switch (obj.k.a) { case 111:%>
+                        <li>case obj.k.a == 111;break;</li>
+                    <%break;}%>
+                </td>
+            </tr>
             <%if (true) {%>
                 <tr><td>if判断</td>
                     <td>&lt;%if(表达式){%&gt;...&lt;%}%&gt;</td>
@@ -61,7 +79,8 @@
     <script>
         var html = template(document.getElementById('tpl').innerHTML, {
             url: 'http://yanhaijing.com?name=颜海镜',
-            html: '<div id="test">template.js</div>'
+            html: '<div id="test">template.js</div>',
+            obj: { k: { a: 111, b: 123 }, c: { a: 222, b: 245 } }
         });
 
         console.log(html);
